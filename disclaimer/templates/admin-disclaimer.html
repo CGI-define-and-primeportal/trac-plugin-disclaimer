@@ -1,0 +1,118 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:i18n="http://genshi.edgewall.org/i18n">
+  <xi:include href="admin.html" />
+  <head>
+    <title>Disclaimers</title>
+  </head>
+
+  <body>
+    <h1 class="pagetitle">Manage Disclaimers</h1>
+	<div class="field">
+        <py:def function="author_field(default_author='')">
+
+            <label>Author: </label>
+              <py:choose>
+                <select py:when="authors" size="1" id="author" name="author">
+                  <option py:for="author in authors"
+                          selected="${author==default_author or None}" value="$author">$author</option>
+                  <option py:if="default_author and default_author not in authors"
+                          selected="selected" value="$default_author">$default_author</option>
+                </select>
+                <input py:otherwise="" type="text" name="author" value="$default_author" />
+              </py:choose>
+
+
+        </py:def>
+    </div>
+
+    <py:choose test="view">
+      <form py:when="'detail'" class="mod" id="editdisclaimer" method="post" action="">
+         <div class="field">
+            <label>Name:</label>
+            <input type="text" class="required" name="name" value="$name"/>
+         </div>
+         <div class="buttons">
+           <input type="submit" name="cancel" value="${_('Cancel')}" />
+           <input type="submit" name="save" class="primary" value="${_('Save')}" />
+         </div>
+
+       </form>
+
+      <py:otherwise>
+      <div class="field">
+        <form  id="adddisclaimer" method="post" action="" title="Add Disclaimer">
+              <div class="field">
+                <label>Name</label>
+                <input type="text" name="name" class="required" style="width: 380px"/>
+              </div>
+              <div class="field">
+                  ${author_field()}
+              </div>
+              <div class="field">
+
+	            <label>Disclaimer:</label>
+	            <fieldset class="iefix">
+	                <span for="body" i18n:msg="">
+	                </span>
+	                <textarea name="body" class="wikitext trac-resizable required"
+	                  rows="6" cols="60">$body</textarea>
+	            </fieldset>
+<div class="buttons">
+                <input type="submit" name="add" value="${_('Add Disclaimer')}"/>
+              </div>
+        	 </div>
+        </form>
+      </div>
+        <py:choose>
+
+          <form py:when="disclaimers" id="disclaimer_table" method="post" action="">
+          <py:for each="disclaimer in disclaimers">
+          <h2><a href="${panel_href(disclaimer)}">$disclaimer</a></h2>
+            <table class="table-style" id="disclaimerlist">
+              <thead>
+                <tr><th class="sel">&nbsp;</th>
+                  <th>Version</th><th>Author</th><th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+              <?python
+              [ID, VERSION, BODY, AUTHOR, CREATED] = range(5)
+              ?>
+                <tr py:for="row in disclaimers[disclaimer]">
+                  <td class="sel"><input type="checkbox" name="sel" class="selcheckbox" value="${row[ID]}" /></td>
+                  <td class="version">${row[VERSION]}</td>
+                  <td class="author">${row[AUTHOR]}</td>
+                  <td class="default">
+                    <input type="radio" name="default" value="${row[ID]}" checked="${default == row[ID]  and 'checked' or None}" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+              </py:for>
+            <p class="help">
+              You can remove all items from this list to completely hide this
+              field from the user interface.
+            </p>
+            <div class="buttons">
+              <input type="submit" name="remove" value="${_('Remove Selected Items')}" id="remove" />
+              <input type="submit" name="apply" value="${_('Save')}" />
+            </div>
+
+          </form>
+
+          <p py:otherwise="" class="help">
+            As long as you don't add any items to the list, this field
+            will remain completely hidden from the user interface.
+          </p>
+        </py:choose>
+      </py:otherwise>
+    </py:choose>
+
+  </body>
+
+</html>

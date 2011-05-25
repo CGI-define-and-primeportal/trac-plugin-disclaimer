@@ -1,0 +1,22 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:py="http://genshi.edgewall.org/"
+     id="disclaimer-dialog"
+     title="disclaimer">
+  <h3>Disclaimer:</h3>
+  <form id="disclaimer-form" action="${req.href.ajax('disclaimer')}" method="post">
+    <input type="hidden" name="version" value="${version}"/>
+    <input type="hidden" name="name" value="${name}"/>
+    <input type="hidden" name="body" value="${body}"/>
+    <div class="highlight">
+     	<p class="content">${body}</p>
+    </div>
+    <br />
+    <div>
+    	<div style="float:left;">
+    		<input type="checkbox" id="accept" name="accept"/><span>Read carefully and accept the same</span>
+    	</div>
+    	<div style="float:right"><input type="submit" name="send" value="Accept"/></div>
+    </div>
+	<div style="float:clear;" />
+  </form>
+</div>

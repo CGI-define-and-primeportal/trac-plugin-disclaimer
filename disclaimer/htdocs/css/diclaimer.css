@@ -1,0 +1,5 @@
+#disclaimer-dialog {
+  display: none;
+}
+#disclaimer-dialog fieldset { padding:0; border:0; margin-top:25px; }
+#disclaimer-dialog h3 {font-size: 12px; font-weight: normal}
