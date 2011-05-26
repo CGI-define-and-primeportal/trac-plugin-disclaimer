@@ -2,7 +2,7 @@
      xmlns:py="http://genshi.edgewall.org/"
      id="disclaimer-dialog"
      title="disclaimer">
-  <h3>Disclaimer:</h3>
+  <h3>Terms and conditions:</h3>
   <form id="disclaimer-form" action="${req.href.ajax('disclaimer')}" method="post">
     <input type="hidden" name="version" value="${version}"/>
     <input type="hidden" name="name" value="${name}"/>
@@ -13,9 +13,9 @@
     <br />
     <div>
     	<div style="float:left;">
-    		<input type="checkbox" id="accept" name="accept"/><span>Read carefully and accept the same</span>
+    		<input type="checkbox" name="accept"/>&nbsp;<span>I have read and agree with these terms and conditions.</span>
     	</div>
-    	<div style="float:right"><input type="submit" name="send" value="Accept"/></div>
+    	<div style="float:right; margin-top:-5px;"><input type="submit" name="send" value="Accept"/></div>
     </div>
 	<div style="float:clear;" />
   </form>

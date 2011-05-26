@@ -49,7 +49,7 @@ from trac.util.translation import _
 from trac.admin.api import IAdminPanelProvider
 from trac.web.chrome import Chrome, add_notice, add_warning
 from model import DisclaimerModel, UserDisclaimerModel
-
+from trac.util.compat import sha1
 
 __all__ = ['Disclaimer']
 
@@ -57,7 +57,7 @@ class Disclaimer(Component):
     implements(ITemplateStreamFilter, IRequestHandler, IAdminPanelProvider,
                IEnvironmentSetupParticipant, ITemplateProvider)
 
-    c_version = Option("disclaimer", "version", default='',
+    c_version = Option("disclaimer", "version", default='0',
                 doc="default version of disclaimer to be used")
     c_name = Option("disclaimer", "name", default='',
                 doc="default name of disclaimer to be used")
@@ -145,14 +145,16 @@ class Disclaimer(Component):
             body = req.args.get('body').strip()
             version = req.args.get('version').strip()
             user = req.authname
-            user_dis_obj.insert(user, name, version, body)
-#            req.send('{"message":"%s"}' % msg, 'text/json')
+            user_dis_obj.insert(user, name, version, sha1(body).hexdigest())
+            req.send('{"message":"success"}', 'text/json')
+        else:
+            req.send('{"message":"Invalid call"}', 'text/json')
     
     # ITemplateStreamFilter
     def filter_stream(self, req, method, filename, stream, data):
         if req.authname == 'anonymous':
             return stream
-        if not self.c_name or not self.c_version:
+        if not self.c_name or not int(self.c_version):
             return stream
         obj = DisclaimerModel(self.env)
         disclaimer = obj.get_by_name_version(self.c_name,self.c_version)
@@ -161,13 +163,12 @@ class Disclaimer(Component):
         (id, author, body) = disclaimer
         user_dis_obj = UserDisclaimerModel(self.env)
         valid = user_dis_obj.validate(req.authname, self.c_name, self.c_version)
-        self.log.debug(valid)
         if valid:
             return stream
         add_stylesheet(req, 'disclaimer/css/disclaimer.css')
         add_javascript(req, 'disclaimer/js/disclaimer.js')
         tmpl = TemplateLoader(self.get_templates_dirs()).load('disclaimer.html')
-        disclaimerbox = tmpl.generate(req=req, name=self.c_name, version=self.c_version, body=body, valid=valid)
+        disclaimerbox = tmpl.generate(req=req, name=self.c_name, version=self.c_version, body=body)
         stream |= Transformer('//div[@id="footer"]').append(disclaimerbox)
         return stream
 

@@ -9,7 +9,36 @@
   <head>
     <title>Disclaimers</title>
   </head>
-
+  <script type="text/javascript">
+jQuery(document).ready(function($) {
+	  $("#adddisclaimer").submit(function(){
+		  name = $("#adddisclaimer input[name='name']").val();
+		  disclaimer = $("#adddisclaimer textarea[name='body']").val();
+		  if (!name){
+			  	$("#adddisclaimer input[name='name']").addClass("ui-state-error");
+			}
+		  else{
+			  $("#adddisclaimer input[name='name']").removeClass("ui-state-error");
+		  }
+		  if (!disclaimer){
+			  	$("#adddisclaimer textarea[name='body']").addClass("ui-state-error");
+		  }
+		  else{
+			  $("#adddisclaimer textarea[name='body']").removeClass("ui-state-error");
+		  }
+		  if (!name || !disclaimer){
+	      	return false;
+	  		}
+	  });
+	  $("#editdisclaimer input[name='save']").click(function(){
+		  name = $("#editdisclaimer input[name='name']").val();
+		  if (!name){
+		  	$("#editdisclaimer input[name='name']").addClass("ui-state-error");
+	      	return false;
+		  }
+	  });
+})
+  </script>
   <body>
     <h1 class="pagetitle">Manage Disclaimers</h1>
 	<div class="field">
@@ -34,7 +63,7 @@
       <form py:when="'detail'" class="mod" id="editdisclaimer" method="post" action="">
          <div class="field">
             <label>Name:</label>
-            <input type="text" class="required" name="name" value="$name"/>
+            <input type="text" name="name" value="$name"/>
          </div>
          <div class="buttons">
            <input type="submit" name="cancel" value="${_('Cancel')}" />
@@ -48,7 +77,7 @@
         <form  id="adddisclaimer" method="post" action="" title="Add Disclaimer">
               <div class="field">
                 <label>Name</label>
-                <input type="text" name="name" class="required" style="width: 380px"/>
+                <input type="text" name="name" style="width: 380px"/>
               </div>
               <div class="field">
                   ${author_field()}
@@ -59,8 +88,8 @@
 	            <fieldset class="iefix">
 	                <span for="body" i18n:msg="">
 	                </span>
-	                <textarea name="body" class="wikitext trac-resizable required"
-	                  rows="6" cols="60">$body</textarea>
+	                <textarea id="body" name="body" class="wikitext trac-resizable"
+	                  rows="6" cols="60"></textarea>
 	            </fieldset>
 <div class="buttons">
                 <input type="submit" name="add" value="${_('Add Disclaimer')}"/>
@@ -72,7 +101,7 @@
 
           <form py:when="disclaimers" id="disclaimer_table" method="post" action="">
           <py:for each="disclaimer in disclaimers">
-          <h2><a href="${panel_href(disclaimer)}">$disclaimer</a></h2>
+          <h2><a style="text-decoration: none;" href="${panel_href(disclaimer)}">$disclaimer</a></h2>
             <table class="table-style" id="disclaimerlist">
               <thead>
                 <tr><th class="sel">&nbsp;</th>
