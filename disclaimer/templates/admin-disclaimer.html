@@ -30,13 +30,17 @@ jQuery(document).ready(function($) {
 	      	return false;
 	  		}
 	  });
-	  $("#editdisclaimer input[name='save']").click(function(){
-		  name = $("#editdisclaimer input[name='name']").val();
-		  if (!name){
-		  	$("#editdisclaimer input[name='name']").addClass("ui-state-error");
-	      	return false;
-		  }
+	  $("#disclaimer_table input[name='sel']").click(function(){
+		  removedisable();
 	  });
+	  function removedisable()
+	  {
+		  if ($("input[name='sel']:checked").size())
+			  $("#disclaimer_table input[name='remove']").attr('disabled', false);
+		  else
+			  $("#disclaimer_table input[name='remove']").attr('disabled', true);
+	  }
+	  removedisable();
 })
   </script>
   <body>
@@ -66,8 +70,8 @@ jQuery(document).ready(function($) {
             <input type="text" name="name" value="$name"/>
          </div>
          <div class="buttons">
-           <input type="submit" name="cancel" value="${_('Cancel')}" />
-           <input type="submit" name="save" class="primary" value="${_('Save')}" />
+           <input type="submit" class="sprite-button sprite-button100" name="cancel" value="${_('Cancel')}" />
+           <input type="submit" class="sprite-button sprite-buttonSave sprite-buttonSpecial primary" name="save" value="${_('Save')}" />
          </div>
 
        </form>
@@ -92,7 +96,7 @@ jQuery(document).ready(function($) {
 	                  rows="6" cols="60"></textarea>
 	            </fieldset>
 <div class="buttons">
-                <input type="submit" name="add" value="${_('Add Disclaimer')}"/>
+                <input class="sprite-button sprite-button100" type="submit" name="add" value="${_('Add Disclaimer')}"/>
               </div>
         	 </div>
         </form>
@@ -128,8 +132,8 @@ jQuery(document).ready(function($) {
               field from the user interface.
             </p>
             <div class="buttons">
-              <input type="submit" name="remove" value="${_('Remove Selected Items')}" id="remove" />
-              <input type="submit" name="apply" value="${_('Save')}" />
+              <input class="sprite-button sprite-button160" type="submit" name="remove" value="${_('Remove Selected Items')}" id="remove" />
+              <input class="sprite-button sprite-buttonSave sprite-buttonSpecial" type="submit" name="apply" value="${_('Save')}" />
             </div>
 
           </form>

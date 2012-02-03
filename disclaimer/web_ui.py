@@ -145,7 +145,12 @@ class Disclaimer(Component):
             body = req.args.get('body').strip()
             version = req.args.get('version').strip()
             user = req.authname
-            user_dis_obj.insert(user, name, version, sha1(body).hexdigest())
+            try:
+                accepted = sha1(body).hexdigest()
+            except Exception, why:
+                self.log.debug(why)
+                accepted = body
+            user_dis_obj.insert(user, name, version, accepted)
             req.send('{"message":"success"}', 'text/json')
         else:
             req.send('{"message":"Invalid call"}', 'text/json')
@@ -168,7 +173,7 @@ class Disclaimer(Component):
         add_stylesheet(req, 'disclaimer/css/disclaimer.css')
         add_javascript(req, 'disclaimer/js/disclaimer.js')
         tmpl = TemplateLoader(self.get_templates_dirs()).load('disclaimer.html')
-        disclaimerbox = tmpl.generate(req=req, name=self.c_name, version=self.c_version, body=body)
+        disclaimerbox = tmpl.generate(req=req, name=self.c_name, version=self.c_version, body=body, href=req.href)
         stream |= Transformer('//div[@id="footer"]').append(disclaimerbox)
         return stream
 

@@ -1,5 +1,6 @@
 (function($){
   $(document).ready(function(e){
+	$("#disclaimer-form #save-spinner").hide();
     var disclaimer = $('#disclaimer-dialog'),
     form = $('#disclaimer-form')
     disclaimer.ready(function(){
@@ -12,6 +13,7 @@
       });
     })
     form.submit(function(){
+    	$("#disclaimer-form #save-spinner").show();
     	$.ajax({
 	        url: form.attr('action'),
 	        type: 'POST',
@@ -24,7 +26,8 @@
         		
         	},
         	error: function(){
-        		alert("Form submission failed");
+        		alert("Error occured. Please contact Serive desk: servicedesk@logica.com");
+        		$("#disclaimer-form #save-spinner").hide();
         	}
         })
     	return false;

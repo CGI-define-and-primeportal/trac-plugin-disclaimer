@@ -15,7 +15,10 @@
     	<div style="float:left;">
     		<input type="checkbox" name="accept"/>&nbsp;<span>I have read and agree with these terms and conditions.</span>
     	</div>
-    	<div style="float:right; margin-top:-5px;"><input type="submit" name="send" value="Accept"/></div>
+    	<div style="float:right; margin-top:-5px;">
+    		<img id="save-spinner" src="${href.chrome('common','loading.gif')}" alt="Processing..."/>
+    		<input class="sprite-button sprite-button80" type="submit" name="send" value="Accept"/>
+    	</div>
     </div>
 	<div style="float:clear;" />
   </form>
