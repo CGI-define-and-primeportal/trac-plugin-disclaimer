@@ -26,7 +26,7 @@
         		
         	},
         	error: function(){
-        		alert("Error occured. Please contact Serive desk: servicedesk@logica.com");
+        		alert("Error occured. Please contact Service desk: servicedesk@logica.com");
         		$("#disclaimer-form #save-spinner").hide();
         	}
         })
