@@ -89,7 +89,7 @@ class Disclaimer(Component):
                 if req.args.get('add') :
                     name = req.args.get('name').strip()
                     body = req.args.get('body').strip()
-                    author = req.args.get('author').strip()
+                    author = req.authname
                     obj.insert(name, body, author)
                 elif req.args.get('remove'):
                     sel = req.args.get('sel')
@@ -119,14 +119,6 @@ class Disclaimer(Component):
                 data['default'] = row[0]
             else: 
                data['default'] = None
-        perm = PermissionSystem(self.env)
-        def valid_author(username):
-            return perm.get_user_permissions(username).get('TRAC_ADMIN')
-        data['authors'] = [username for username, name, email
-                          in self.env.get_known_users()
-                          if valid_author(username)]
-        data['authors'].insert(0, '')
-        data['authors'].sort()
         Chrome(self.env).add_wiki_toolbars(req)
         return 'admin-disclaimer.html', data
     

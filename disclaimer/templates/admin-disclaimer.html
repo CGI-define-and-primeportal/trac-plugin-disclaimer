@@ -30,6 +30,13 @@ jQuery(document).ready(function($) {
 	      	return false;
 	  		}
 	  });
+	  $("#editdisclaimer input[name='save']").click(function(){
+		  name = $("#editdisclaimer input[name='name']").val();
+		  if (!name){
+		  	$("#editdisclaimer input[name='name']").addClass("ui-state-error");
+	      	return false;
+		  }
+	  });
 	  $("#disclaimer_table input[name='sel']").click(function(){
 		  removedisable();
 	  });
@@ -45,33 +52,15 @@ jQuery(document).ready(function($) {
   </script>
   <body>
     <h1 class="pagetitle">Manage Disclaimers</h1>
-	<div class="field">
-        <py:def function="author_field(default_author='')">
-
-            <label>Author: </label>
-              <py:choose>
-                <select py:when="authors" size="1" id="author" name="author">
-                  <option py:for="author in authors"
-                          selected="${author==default_author or None}" value="$author">$author</option>
-                  <option py:if="default_author and default_author not in authors"
-                          selected="selected" value="$default_author">$default_author</option>
-                </select>
-                <input py:otherwise="" type="text" name="author" value="$default_author" />
-              </py:choose>
-
-
-        </py:def>
-    </div>
-
     <py:choose test="view">
       <form py:when="'detail'" class="mod" id="editdisclaimer" method="post" action="">
          <div class="field">
             <label>Name:</label>
-            <input type="text" name="name" value="$name"/>
+            <input type="text" name="name" class="required" value="$name"/>
          </div>
          <div class="buttons">
            <input type="submit" class="sprite-button sprite-button100" name="cancel" value="${_('Cancel')}" />
-           <input type="submit" class="sprite-button sprite-buttonSave sprite-buttonSpecial primary" name="save" value="${_('Save')}" />
+           <input type="submit" class="sprite-button sprite-buttonSave sprite-buttonSpecial" name="save" value="${_('Save')}" />
          </div>
 
        </form>
@@ -81,10 +70,7 @@ jQuery(document).ready(function($) {
         <form  id="adddisclaimer" method="post" action="" title="Add Disclaimer">
               <div class="field">
                 <label>Name</label>
-                <input type="text" name="name" style="width: 380px"/>
-              </div>
-              <div class="field">
-                  ${author_field()}
+                <input type="text" name="name" class="required" style="width: 380px"/>
               </div>
               <div class="field">
 
@@ -92,7 +78,7 @@ jQuery(document).ready(function($) {
 	            <fieldset class="iefix">
 	                <span for="body" i18n:msg="">
 	                </span>
-	                <textarea id="body" name="body" class="wikitext trac-resizable"
+	                <textarea id="body" name="body" class="wikitext trac-resizable required"
 	                  rows="6" cols="60"></textarea>
 	            </fieldset>
 <div class="buttons">
