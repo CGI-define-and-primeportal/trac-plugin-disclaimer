@@ -12,16 +12,19 @@
   <script type="text/javascript">
 jQuery(document).ready(function($) {
 	  $("#adddisclaimer").submit(function(){
-		  name = $("#adddisclaimer input[name='name']").val();
-		  disclaimer = $("#adddisclaimer textarea[name='body']").val();
+		  $("#adddisclaimer span").remove()
+		  name = $("#adddisclaimer input[name='name']").val().trim();		  
+		  disclaimer = $("#adddisclaimer textarea[name='body']").val().trim();
 		  if (!name){
-			  	$("#adddisclaimer input[name='name']").addClass("ui-state-error");
+				$("#adddisclaimer input[name='name']").addClass("ui-state-error");
+				$("#adddisclaimer input[name='name']").after('<span id="error" class="ui-state-error">This field is required.</span>');
 			}
 		  else{
 			  $("#adddisclaimer input[name='name']").removeClass("ui-state-error");
 		  }
 		  if (!disclaimer){
 			  	$("#adddisclaimer textarea[name='body']").addClass("ui-state-error");
+				$("#adddisclaimer .trac-grip").after('<span class="ui-state-error">This field is required.</span>');
 		  }
 		  else{
 			  $("#adddisclaimer textarea[name='body']").removeClass("ui-state-error");
@@ -31,9 +34,11 @@ jQuery(document).ready(function($) {
 	  		}
 	  });
 	  $("#editdisclaimer input[name='save']").click(function(){
+		  $("#editdisclaimer span").remove()
 		  name = $("#editdisclaimer input[name='name']").val();
 		  if (!name){
 		  	$("#editdisclaimer input[name='name']").addClass("ui-state-error");
+			$("#editdisclaimer input[name='name']").after('<span class="ui-state-error">This field is required.</span>');
 	      	return false;
 		  }
 	  });
@@ -56,7 +61,7 @@ jQuery(document).ready(function($) {
       <form py:when="'detail'" class="mod" id="editdisclaimer" method="post" action="">
          <div class="field">
             <label>Name:</label>
-            <input type="text" name="name" class="required" value="$name"/>
+            <input type="text" name="name" class="required" value="$name" style="width: 380px; color: black !important;"/>
          </div>
          <div class="buttons">
            <input type="submit" class="sprite-button sprite-button100" name="cancel" value="${_('Cancel')}" />
@@ -70,7 +75,7 @@ jQuery(document).ready(function($) {
         <form  id="adddisclaimer" method="post" action="" title="Add Disclaimer">
               <div class="field">
                 <label>Name</label>
-                <input type="text" name="name" class="required" style="width: 380px"/>
+                <input type="text" name="name" class="required" style="width: 380px; color: black !important;"/>
               </div>
               <div class="field">
 
@@ -79,7 +84,7 @@ jQuery(document).ready(function($) {
 	                <span for="body" i18n:msg="">
 	                </span>
 	                <textarea id="body" name="body" class="wikitext trac-resizable required"
-	                  rows="6" cols="60"></textarea>
+	                  rows="6" cols="60" style="color: black !important;"></textarea>
 	            </fieldset>
 <div class="buttons">
                 <input class="sprite-button sprite-button100" type="submit" name="add" value="${_('Add Disclaimer')}"/>

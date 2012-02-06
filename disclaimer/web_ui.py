@@ -164,9 +164,11 @@ class Disclaimer(Component):
             return stream
         add_stylesheet(req, 'disclaimer/css/disclaimer.css')
         add_javascript(req, 'disclaimer/js/disclaimer.js')
-        tmpl = TemplateLoader(self.get_templates_dirs()).load('disclaimer.html')
-        disclaimerbox = tmpl.generate(req=req, name=self.c_name, version=self.c_version, body=body, href=req.href)
-        stream |= Transformer('//div[@id="footer"]').append(disclaimerbox)
+        chrome = Chrome(self.env)
+        template = chrome.load_template("disclaimer.html")
+        data = dict(name=self.c_name, version=self.c_version, body=body)
+        data = chrome.populate_data(req, data)
+        stream |= Transformer('//div[@id="footer"]').append(template.generate(**data))
         return stream
 
      # IEnvironmentSetupParticipant
