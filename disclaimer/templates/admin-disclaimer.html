@@ -64,8 +64,8 @@ jQuery(document).ready(function($) {
             <input type="text" name="name" class="required" value="$name" style="width: 380px; color: black !important;"/>
          </div>
          <div class="buttons">
-           <input type="submit" class="sprite-button sprite-button100" name="cancel" value="${_('Cancel')}" />
-           <input type="submit" class="sprite-button sprite-buttonSave sprite-buttonSpecial" name="save" value="${_('Save')}" />
+           <button type="submit" class="btn btn-mini btn-primary" name="cancel" value="${_('Cancel')}"><i class="icon-remove icon-white"></i> Cancel</button>
+           <button type="submit" class="btn btn-mini btn-primary" name="save" value="${_('Save')}"><i class="icon-hdd icon-white"></i> Save</button>
          </div>
 
        </form>
@@ -87,7 +87,9 @@ jQuery(document).ready(function($) {
 	                  rows="6" cols="60" style="color: black !important;"></textarea>
 	            </fieldset>
 <div class="buttons">
-                <input class="sprite-button sprite-button100" type="submit" name="add" value="${_('Add Disclaimer')}"/>
+                <button class="btn btn-mini btn-primary" type="submit" name="add" value="${_('Add Disclaimer')}">
+                  <i class="icon-plus-sign icon-white"></i> Add Disclaimer
+                </button>
               </div>
         	 </div>
         </form>
@@ -123,8 +125,12 @@ jQuery(document).ready(function($) {
               field from the user interface.
             </p>
             <div class="buttons">
-              <input class="sprite-button sprite-button160" type="submit" name="remove" value="${_('Remove Selected Items')}" id="remove" />
-              <input class="sprite-button sprite-buttonSave sprite-buttonSpecial" type="submit" name="apply" value="${_('Save')}" />
+              <button class="btn btn-mini btn-primary" type="submit" value="${_('Remove Selected Items')}" name="remove">
+                <i class="icon-trash icon-white"></i> Remove Selected Items
+              </button>
+              <button class="btn btn-mini btn-primary" type="submit" name="apply" value="${_('Save')}">
+                <i class="icon-hdd icon-white"> Save
+              </button>
             </div>
 
           </form>
