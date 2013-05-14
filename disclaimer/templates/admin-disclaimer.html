@@ -1,0 +1,148 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:i18n="http://genshi.edgewall.org/i18n">
+  <xi:include href="admin.html" />
+  <head>
+    <title>Disclaimers</title>
+  </head>
+  <script type="text/javascript">
+jQuery(document).ready(function($) {
+	  $("#adddisclaimer").submit(function(){
+		  $("#adddisclaimer span").remove()
+		  name = $("#adddisclaimer input[name='name']").val().trim();		  
+		  disclaimer = $("#adddisclaimer textarea[name='body']").val().trim();
+		  if (!name){
+				$("#adddisclaimer input[name='name']").addClass("ui-state-error");
+				$("#adddisclaimer input[name='name']").after('<span id="error" class="ui-state-error">This field is required.</span>');
+			}
+		  else{
+			  $("#adddisclaimer input[name='name']").removeClass("ui-state-error");
+		  }
+		  if (!disclaimer){
+			  	$("#adddisclaimer textarea[name='body']").addClass("ui-state-error");
+				$("#adddisclaimer .trac-grip").after('<span class="ui-state-error">This field is required.</span>');
+		  }
+		  else{
+			  $("#adddisclaimer textarea[name='body']").removeClass("ui-state-error");
+		  }
+		  if (!name || !disclaimer){
+	      	return false;
+	  		}
+	  });
+	  $("#editdisclaimer input[name='save']").click(function(){
+		  $("#editdisclaimer span").remove()
+		  name = $("#editdisclaimer input[name='name']").val();
+		  if (!name){
+		  	$("#editdisclaimer input[name='name']").addClass("ui-state-error");
+			$("#editdisclaimer input[name='name']").after('<span class="ui-state-error">This field is required.</span>');
+	      	return false;
+		  }
+	  });
+	  $("#disclaimer_table input[name='sel']").click(function(){
+		  removedisable();
+	  });
+	  function removedisable()
+	  {
+		  if ($("input[name='sel']:checked").size())
+			  $("#disclaimer_table input[name='remove']").attr('disabled', false);
+		  else
+			  $("#disclaimer_table input[name='remove']").attr('disabled', true);
+	  }
+	  removedisable();
+})
+  </script>
+  <body>
+    <h1 class="pagetitle">Manage Disclaimers</h1>
+    <py:choose test="view">
+      <form py:when="'detail'" class="mod" id="editdisclaimer" method="post" action="">
+         <div class="field">
+            <label>Name:</label>
+            <input type="text" name="name" class="required" value="$name" style="width: 380px; color: black !important;"/>
+         </div>
+         <div class="buttons">
+           <button type="submit" class="btn btn-mini btn-primary" name="cancel" value="${_('Cancel')}"><i class="icon-remove icon-white"></i> Cancel</button>
+           <button type="submit" class="btn btn-mini btn-primary" name="save" value="${_('Save')}"><i class="icon-hdd icon-white"></i> Save</button>
+         </div>
+
+       </form>
+
+      <py:otherwise>
+      <div class="field">
+        <form  id="adddisclaimer" method="post" action="" title="Add Disclaimer">
+              <div class="field">
+                <label>Name</label>
+                <input type="text" name="name" class="required" style="width: 380px; color: black !important;"/>
+              </div>
+              <div class="field">
+
+	            <label>Disclaimer:</label>
+	            <fieldset class="iefix">
+	                <span for="body" i18n:msg="">
+	                </span>
+	                <textarea id="body" name="body" class="wikitext trac-resizable required"
+	                  rows="6" cols="60" style="color: black !important;"></textarea>
+	            </fieldset>
+<div class="buttons">
+                <button class="btn btn-mini btn-primary" type="submit" name="add" value="${_('Add Disclaimer')}">
+                  <i class="icon-plus-sign icon-white"></i> Add Disclaimer
+                </button>
+              </div>
+        	 </div>
+        </form>
+      </div>
+        <py:choose>
+
+          <form py:when="disclaimers" id="disclaimer_table" method="post" action="">
+          <py:for each="disclaimer in disclaimers">
+          <h2><a style="text-decoration: none;" href="${panel_href(disclaimer)}">$disclaimer</a></h2>
+            <table class="table-style" id="disclaimerlist">
+              <thead>
+                <tr><th class="sel">&nbsp;</th>
+                  <th>Version</th><th>Author</th><th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+              <?python
+              [ID, VERSION, BODY, AUTHOR, CREATED] = range(5)
+              ?>
+                <tr py:for="row in disclaimers[disclaimer]">
+                  <td class="sel"><input type="checkbox" name="sel" class="selcheckbox" value="${row[ID]}" /></td>
+                  <td class="version">${row[VERSION]}</td>
+                  <td class="author">${row[AUTHOR]}</td>
+                  <td class="default">
+                    <input type="radio" name="default" value="${row[ID]}" checked="${default == row[ID]  and 'checked' or None}" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+              </py:for>
+            <p class="help">
+              You can remove all items from this list to completely hide this
+              field from the user interface.
+            </p>
+            <div class="buttons">
+              <button class="btn btn-mini btn-primary" type="submit" value="${_('Remove Selected Items')}" name="remove">
+                <i class="icon-trash icon-white"></i> Remove Selected Items
+              </button>
+              <button class="btn btn-mini btn-primary" type="submit" name="apply" value="${_('Save')}">
+                <i class="icon-hdd icon-white"> Save
+              </button>
+            </div>
+
+          </form>
+
+          <p py:otherwise="" class="help">
+            As long as you don't add any items to the list, this field
+            will remain completely hidden from the user interface.
+          </p>
+        </py:choose>
+      </py:otherwise>
+    </py:choose>
+
+  </body>
+
+</html>
