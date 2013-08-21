@@ -29,7 +29,8 @@ class DisclaimerModel(object):
     def validate(self, name=None):
         max_version = 0
         count = 0
-        cursor = self._get_db().cursor()
+        db = self._get_db()
+        cursor = db.cursor()
         if name:
             cursor.execute("""SELECT count(*), max(version) FROM disclaimer WHERE name=%s""", (name,))
             (count, max_version) = cursor.fetchone()
@@ -38,17 +39,20 @@ class DisclaimerModel(object):
         return (count, max_version)
     
     def get_by_id(self, id):
-        cursor = self._get_db().cursor()
+        db = self._get_db()
+        cursor = db.cursor()
         cursor.execute("""SELECT name, version FROM disclaimer WHERE id=%s""", (id,))
         return cursor.fetchone()
         
     def get_by_name(self, name):
-        cursor = self._get_db().cursor()
+        db = self._get_db()
+        cursor = db.cursor()
         cursor.execute("""SELECT id, version, author, body FROM disclaimer WHERE name=%s""", (name,))
         return list(cursor)
     
     def get_by_name_version(self, name, version=None):
-        cursor = self._get_db().cursor()
+        db = self._get_db()
+        cursor = db.cursor()
         if not version:
             count, version = self.validate(name)
         cursor.execute("""SELECT id, author, body FROM disclaimer WHERE name=%s and version=%s""", (name, version))
@@ -56,7 +60,8 @@ class DisclaimerModel(object):
      
     def getall(self):
         data = {}
-        cursor = self._get_db().cursor()
+        db = self._get_db()
+        cursor = db.cursor()
         cursor.execute("""SELECT * FROM disclaimer ORDER BY name, created""")
         for (id, name, version, body, author, created) in cursor:
             if name not in data:
@@ -103,7 +108,8 @@ class UserDisclaimerModel(object):
                                  (user, name, version, body))
     
     def validate(self, user, name, version):
-        cursor = self._get_db().cursor()
+        db = self._get_db()
+        cursor = db.cursor()
         cursor.execute("""SELECT count(*) FROM user_disclaimer WHERE user=%s and disclaimer_name=%s and version=%s""", (user, name, version))
         (count,) = cursor.fetchone()
         return count
