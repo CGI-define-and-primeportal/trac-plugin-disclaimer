@@ -26,7 +26,7 @@
         		
         	},
         	error: function(){
-        		alert("Error occured. Please contact Service desk: servicedesk@cgi.com");
+        		alert("Error occured. Please contact Service desk: servicedesk.se@cgi.com");
         		$("#disclaimer-form #save-spinner").hide();
         	}
         })
