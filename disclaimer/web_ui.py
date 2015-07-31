@@ -150,15 +150,15 @@ class Disclaimer(Component):
             return stream
         if not self.c_name or not self.c_version:
             return stream
+        user_dis_obj = UserDisclaimerModel(self.env)
+        valid = user_dis_obj.validate(req.authname, self.c_name, self.c_version)
+        if valid:
+            return stream
         obj = DisclaimerModel(self.env)
         disclaimer = obj.get_by_name_version(self.c_name,self.c_version)
         if not disclaimer:
             return stream
         (id, author, body) = disclaimer
-        user_dis_obj = UserDisclaimerModel(self.env)
-        valid = user_dis_obj.validate(req.authname, self.c_name, self.c_version)
-        if valid:
-            return stream
         add_stylesheet(req, 'disclaimer/css/disclaimer.css')
         add_javascript(req, 'disclaimer/js/disclaimer.js')
         chrome = Chrome(self.env)
