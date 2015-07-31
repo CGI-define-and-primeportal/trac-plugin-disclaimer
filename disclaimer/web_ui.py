@@ -139,12 +139,7 @@ class Disclaimer(Component):
             body = req.args.get('body').strip()
             version = req.args.get('version').strip()
             user = req.authname
-            try:
-                accepted = sha1(body).hexdigest()
-            except Exception, why:
-                self.log.debug(why)
-                accepted = body
-            user_dis_obj.insert(user, name, version, accepted)
+            user_dis_obj.insert(user, name, version, body)
             req.send('{"message":"success"}', 'text/json')
         else:
             req.send('{"message":"Invalid call"}', 'text/json')
