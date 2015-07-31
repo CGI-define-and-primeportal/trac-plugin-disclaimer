@@ -61,6 +61,8 @@ class Disclaimer(Component):
                 doc="default version of disclaimer to be used")
     c_name = Option("disclaimer", "name", default='',
                 doc="default name of disclaimer to be used")
+    c_text = Option("disclaimer", "text", default='',
+                doc="default text for disclaimer")
 
    # IAdminPanelProvider
     def get_admin_panels(self, req):
@@ -193,6 +195,14 @@ class Disclaimer(Component):
             for stmt in db_backend.to_sql(table):
                 self.log.debug(stmt)
                 cursor.execute(stmt)
+        cursor.execute("select count(*) from disclaimer")
+        entries = cursor.fetchone()[0]
+        if entries == 0:
+            DisclaimerModel(self.env).insert(self.c_name,
+                                             self.c_text,
+                                             'system',
+                                             db=db)
+
 
     # ITemplateProvider methods
     def get_htdocs_dirs(self):
