@@ -36,7 +36,7 @@ from genshi.filters.transform import Transformer
 from genshi.template.loader import TemplateLoader
 from pkg_resources import resource_filename
 from trac.util.datefmt import to_utimestamp, utc
-from trac.config import Option
+from trac.config import Option, IntOption
 from trac.perm import PermissionSystem
 from trac.admin import *
 from trac.core import *
@@ -57,7 +57,7 @@ class Disclaimer(Component):
     implements(ITemplateStreamFilter, IRequestHandler, IAdminPanelProvider,
                IEnvironmentSetupParticipant, ITemplateProvider)
 
-    c_version = Option("disclaimer", "version", default='0',
+    c_version = IntOption("disclaimer", "version", 0,
                 doc="default version of disclaimer to be used")
     c_name = Option("disclaimer", "name", default='',
                 doc="default name of disclaimer to be used")
@@ -101,7 +101,7 @@ class Disclaimer(Component):
                         sel = [sel]
                     for id in sel:
                         name, version = obj.get_by_id(id)
-                        if name == self.c_name and version == int(self.c_version):
+                        if name == self.c_name and version == self.c_version:
                             add_warning(req, _('You cannot delete disclaimer "%s"  with version:%s' %(name,version)))
                             continue
                         obj.delete(id)
@@ -153,7 +153,7 @@ class Disclaimer(Component):
     def filter_stream(self, req, method, filename, stream, data):
         if req.authname == 'anonymous':
             return stream
-        if not self.c_name or not int(self.c_version):
+        if not self.c_name or not self.c_version:
             return stream
         obj = DisclaimerModel(self.env)
         disclaimer = obj.get_by_name_version(self.c_name,self.c_version)
