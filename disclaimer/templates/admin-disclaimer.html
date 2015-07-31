@@ -94,15 +94,13 @@ jQuery(document).ready(function($) {
         	 </div>
         </form>
       </div>
-        <py:choose>
-
-          <form py:when="disclaimers" id="disclaimer_table" method="post" action="">
+          <form id="disclaimer_table" method="post" action="">
           <py:for each="disclaimer in disclaimers">
           <h2><a style="text-decoration: none;" href="${panel_href(disclaimer)}">$disclaimer</a></h2>
             <table class="table-style" id="disclaimerlist">
               <thead>
                 <tr><th class="sel">&nbsp;</th>
-                  <th>Version</th><th>Author</th><th>Default</th>
+                  <th>Version</th><th>Author</th><th>Active</th>
                 </tr>
               </thead>
               <tbody>
@@ -135,11 +133,6 @@ jQuery(document).ready(function($) {
 
           </form>
 
-          <p py:otherwise="" class="help">
-            As long as you don't add any items to the list, this field
-            will remain completely hidden from the user interface.
-          </p>
-        </py:choose>
       </py:otherwise>
     </py:choose>
 
