@@ -30,26 +30,18 @@
 # ----------------------------------------------------------------------------
 # Created on 17 May 2011
 # @author parthiban ramasamy
-import re
-from datetime import datetime
 from genshi.filters.transform import Transformer
-from genshi.template.loader import TemplateLoader
-from pkg_resources import resource_filename
-from trac.util.datefmt import to_utimestamp, utc
 from trac.config import Option, IntOption
-from trac.perm import PermissionSystem
 from trac.admin import *
 from trac.core import *
 from trac.web.api import IRequestHandler, ITemplateStreamFilter
-from trac.web.main import IRequestFilter
 from trac.env import IEnvironmentSetupParticipant
 from trac.db.api import DatabaseManager
-from trac.web.chrome import ITemplateProvider, add_javascript, add_stylesheet, Chrome
+from trac.web.chrome import ITemplateProvider, add_javascript, add_stylesheet
 from trac.util.translation import _
 from trac.admin.api import IAdminPanelProvider
 from trac.web.chrome import Chrome, add_notice, add_warning
 from model import DisclaimerModel, UserDisclaimerModel
-from trac.util.compat import sha1
 
 __all__ = ['Disclaimer']
 
@@ -131,9 +123,9 @@ class Disclaimer(Component):
   
     def process_request(self, req):
         if req.authname == 'anonymous':
-            return
-        dis_obj = DisclaimerModel(self.env)
-        user_dis_obj = UserDisclaimerModel(self.env)
+            return        
+        DisclaimerModel(self.env)
+	user_dis_obj = UserDisclaimerModel(self.env)
         if req.method == 'POST':
             name = req.args.get('name').strip()
             body = req.args.get('body').strip()
