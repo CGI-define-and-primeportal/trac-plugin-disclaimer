@@ -29,7 +29,7 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # ----------------------------------------------------------------------------
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 PACKAGE = 'DisclaimerPlugin'
 VERSION = '0.1'
