@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright (c) 2010, Logica
+# Copyright (c) 2015 CGI
 # 
 # All rights reserved.
 # 
@@ -12,7 +12,7 @@
 #     * Redistributions in binary form must reproduce the above copyright
 #       notice, this list of conditions and the following disclaimer in the
 #       documentation and/or other materials provided with the distribution.
-#     * Neither the name of the <ORGANIZATION> nor the names of its
+#     * Neither the name of CGI nor the names of its
 #       contributors may be used to endorse or promote products derived from
 #       this software without specific prior written permission.
 # 
@@ -37,9 +37,14 @@ VERSION = '0.1'
 setup(
     name=PACKAGE, version=VERSION,
     description='Disclaimer of a project',
-    author="Parthiban", author_email="parthiban.ramasamy@logica.com",
-    license = "Copyright (c) 2010, Logica. All rights reserved. Released under the 3-clause BSD license.",
-    url = "https://d4.define.logica.com",
+    author="Parthiban Ramasamy",
+    author_email="parthiban.ramasamy@logica.com",
+    maintainer="CGI CoreTeam",
+    maintainer_email="coreteam.service.desk.se@cgi.com",
+    contact="CGI CoreTeam",
+    contact_email="coreteam.service.desk.se@cgi.com",
+    classifiers=['License :: OSI Approved :: BSD License'],
+    license='BSD',
     packages = ['disclaimer'],
     package_data={
         'disclaimer': ['htdocs/js/*.js',
